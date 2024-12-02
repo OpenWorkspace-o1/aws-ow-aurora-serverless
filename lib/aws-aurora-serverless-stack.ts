@@ -33,6 +33,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: parseVpcSubnetType(props.vpcSubnetType),
       },
+      securityGroups: [auroraSecurityGroup],
       autoMinorVersionUpgrade: true,
       serverlessV2MaxCapacity: props.serverlessV2MaxCapacity,
       serverlessV2MinCapacity: props.serverlessV2MinCapacity,
