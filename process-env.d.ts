@@ -6,5 +6,8 @@ declare module NodeJS {
         APP_NAME: string;
         VPC_ID: string;
         OWNER: string;
+        SERVERLESS_V2_MAX_CAPACITY: number;
+        SERVERLESS_V2_MIN_CAPACITY: number;
+        AURORA_ENGINE: string;
     }
 }

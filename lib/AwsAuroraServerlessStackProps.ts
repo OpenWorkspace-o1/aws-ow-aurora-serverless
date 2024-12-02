@@ -8,4 +8,14 @@ export interface AwsAuroraServerlessStackProps extends StackProps {
     readonly vpcSubnetType: string;
     readonly owner: string;
     readonly vpcId: string;
+    readonly auroraEngine: AuroraEngine;
+    readonly serverlessV2MaxCapacity: number;
+    readonly serverlessV2MinCapacity: number;
+    readonly rdsUsername: string;
+    readonly rdsPassword: string;
+}
+
+export enum AuroraEngine {
+    AuroraPostgresql = "aurora-postgresql",
+    AuroraMysql = "aurora-mysql",
 }
