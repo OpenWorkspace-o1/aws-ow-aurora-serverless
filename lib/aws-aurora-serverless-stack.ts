@@ -26,6 +26,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       allowAllOutbound: false,
       description: 'Security group for Aurora Serverless cluster',
     });
+    auroraSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
@@ -54,6 +55,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         preferredWindow: '03:00-04:00'
       },
     });
+    auroraDatabaseCluster.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Endpoint`, {
       value: auroraDatabaseCluster.clusterEndpoint.hostname,
