@@ -23,7 +23,8 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     const auroraPort = props.auroraEngine === AuroraEngine.AuroraPostgresql ? 5432 : 3306;
     const auroraSecurityGroup = new ec2.SecurityGroup(this, `${props.resourcePrefix}-Aurora-Security-Group`, {
       vpc,
-      allowAllOutbound: true,
+      allowAllOutbound: false,
+      description: 'Security group for Aurora Serverless cluster',
     });
 
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
