@@ -8,7 +8,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 export function parseVpcSubnetType(subnetType: string): ec2.SubnetType {
     switch (subnetType) {
         case 'PUBLIC':
-            return ec2.SubnetType.PUBLIC;;
+            return ec2.SubnetType.PUBLIC;
         case 'PRIVATE_ISOLATED':
             return ec2.SubnetType.PRIVATE_ISOLATED;
         case 'PRIVATE_WITH_EGRESS':
