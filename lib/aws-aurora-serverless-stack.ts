@@ -49,6 +49,10 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
           password: props.rdsPassword
         })),
       })),
+      backup: {
+        retention: cdk.Duration.days(14),
+        preferredWindow: '03:00-04:00'
+      },
     });
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Endpoint`, {
