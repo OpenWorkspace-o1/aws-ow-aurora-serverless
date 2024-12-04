@@ -26,6 +26,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       allowAllOutbound: false,
       description: 'Security group for Aurora Serverless cluster',
     });
+    auroraSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
@@ -54,6 +55,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         preferredWindow: '03:00-04:00'
       },
     });
+    auroraDatabaseCluster.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Endpoint`, {
       value: auroraDatabaseCluster.clusterEndpoint.hostname,
@@ -89,6 +91,20 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       value: auroraPort.toString(),
       description: 'Aurora Port',
       exportName: `${props.resourcePrefix}-Aurora-Port`,
+    });
+
+    // export auroraDatabaseCluster arn
+    new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Database-Cluster-ARN`, {
+      value: auroraDatabaseCluster.clusterArn,
+      description: 'Aurora Database Cluster ARN',
+      exportName: `${props.resourcePrefix}-Aurora-Database-Cluster-ARN`,
+    });
+
+    // export auroraDatabaseCluster connection string
+    new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Database-Cluster-Connection-String`, {
+      value: `${props.auroraEngine === AuroraEngine.AuroraPostgresql ? 'postgresql' : 'mysql'}://${props.rdsUsername}:${props.rdsPassword}@${auroraDatabaseCluster.clusterEndpoint.hostname}:${auroraPort}/${auroraDatabaseCluster.clusterIdentifier}`,
+      description: 'Aurora Database Cluster Connection String',
+      exportName: `${props.resourcePrefix}-Aurora-Database-Cluster-Connection-String`,
     });
   }
 }
