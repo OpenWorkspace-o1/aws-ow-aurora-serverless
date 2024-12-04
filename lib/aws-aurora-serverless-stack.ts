@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 import { AuroraEngine, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
 import { SecretValue } from 'aws-cdk-lib';
@@ -41,7 +42,12 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       readers: [rds.ClusterInstance.serverlessV2('reader')],
       storageEncrypted: true,
       storageEncryptionKey: kmsKey,
-      credentials: rds.Credentials.fromPassword(props.rdsUsername, SecretValue.unsafePlainText(props.rdsPassword)),
+      credentials: rds.Credentials.fromSecret(new secretsmanager.Secret(this, `${props.resourcePrefix}-db-credentials`, {
+        secretStringValue: SecretValue.unsafePlainText(JSON.stringify({
+          username: props.rdsUsername,
+          password: props.rdsPassword
+        })),
+      })),
     });
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Endpoint`, {
