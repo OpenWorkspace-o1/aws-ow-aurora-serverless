@@ -1,6 +1,13 @@
 ## 2024-12-07
 
 ### Changed
+- Updated Aurora Serverless PostgreSQL engine version from `VER_17_2` to `VER_16_6`
+- Maintained existing database cluster engine configuration and conditional removal policy
+- Preserved environment-specific database cluster management approach
+
+## 2024-12-07
+
+### Changed
 - Updated `APP_NAME` in `.env.example` from `aws-aurora-serverless` to `ow-aurora-serverless`
 
 ### Added
