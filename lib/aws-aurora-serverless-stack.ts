@@ -67,6 +67,14 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       },
     ]);
 
+    // Add suppression for the default endpoint port warning
+    NagSuppressions.addResourceSuppressions(auroraDatabaseCluster, [
+      {
+        id: 'AwsSolutions-RDS11',
+        reason: 'AwsSolutions-RDS11: The RDS instance or Aurora DB cluster uses the default endpoint port.',
+      },
+    ]);
+
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Endpoint`, {
       value: auroraDatabaseCluster.clusterEndpoint.hostname,
       description: 'Aurora Endpoint',
