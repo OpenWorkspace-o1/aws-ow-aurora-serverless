@@ -50,6 +50,8 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
           password: props.rdsPassword
         })),
       })),
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      iamAuthentication: true,
       backup: {
         retention: cdk.Duration.days(14),
         preferredWindow: '03:00-04:00'
