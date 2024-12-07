@@ -28,6 +28,10 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     });
     auroraSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
+    const auroraSecret = new secretsmanager.Secret(this, `${props.resourcePrefix}-db-credentials`, {
+      secretStringValue: SecretValue.unsafePlainText(props.rdsPassword),
+    });
+
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
         rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_17_2 }) :
@@ -44,12 +48,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       readers: [rds.ClusterInstance.serverlessV2('reader')],
       storageEncrypted: true,
       storageEncryptionKey: kmsKey,
-      credentials: rds.Credentials.fromSecret(new secretsmanager.Secret(this, `${props.resourcePrefix}-db-credentials`, {
-        secretStringValue: SecretValue.unsafePlainText(JSON.stringify({
-          username: props.rdsUsername,
-          password: props.rdsPassword
-        })),
-      })),
+      credentials: rds.Credentials.fromSecret(auroraSecret, props.rdsUsername),
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       iamAuthentication: true,
       backup: {
