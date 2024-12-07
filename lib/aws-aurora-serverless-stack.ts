@@ -45,7 +45,11 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       serverlessV2MaxCapacity: props.serverlessV2MaxCapacity,
       serverlessV2MinCapacity: props.serverlessV2MinCapacity,
       writer: rds.ClusterInstance.serverlessV2('writer'),
-      readers: [rds.ClusterInstance.serverlessV2('reader')],
+      readers: [
+        rds.ClusterInstance.serverlessV2('reader', {
+          scaleWithWriter: true,
+        })
+      ],
       storageEncrypted: true,
       storageEncryptionKey: kmsKey,
       credentials: rds.Credentials.fromSecret(auroraSecret, props.rdsUsername),
