@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { AuroraEngine, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
 import { SecretValue } from 'aws-cdk-lib';
@@ -43,7 +44,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       readers: [
         rds.ClusterInstance.serverlessV2('reader', {
           scaleWithWriter: true,
-        })
+        }),
       ],
       storageEncrypted: true,
       storageEncryptionKey: kmsKey,
@@ -55,7 +56,16 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         preferredWindow: '03:00-04:00'
       },
     });
-    auroraDatabaseCluster.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
+    const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
+    auroraDatabaseCluster.applyRemovalPolicy(removalPolicy);
+
+    // Add suppression for the deletion protection warning
+    NagSuppressions.addResourceSuppressions(auroraDatabaseCluster, [
+      {
+        id: 'AwsSolutions-RDS10',
+        reason: 'Deletion protection is intentionally disabled for development/testing purposes',
+      },
+    ]);
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Endpoint`, {
       value: auroraDatabaseCluster.clusterEndpoint.hostname,
