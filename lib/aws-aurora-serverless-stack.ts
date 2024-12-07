@@ -28,6 +28,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     });
     auroraSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
+    const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
         rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_17_2 }) :
@@ -49,7 +50,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       storageEncrypted: true,
       storageEncryptionKey: kmsKey,
       credentials: rds.Credentials.fromPassword(props.rdsUsername, SecretValue.unsafePlainText(props.rdsPassword)),
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      removalPolicy,
       iamAuthentication: true,
       backup: {
         retention: cdk.Duration.days(14),
@@ -58,8 +59,6 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       backtrackWindow: props.auroraEngine === AuroraEngine.AuroraMysql ?
         cdk.Duration.hours(24) : undefined,
     });
-    const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
-    auroraDatabaseCluster.applyRemovalPolicy(removalPolicy);
 
     // Add suppression for the deletion protection warning
     NagSuppressions.addResourceSuppressions(auroraDatabaseCluster, [
