@@ -5,6 +5,9 @@ declare module NodeJS {
         ENVIRONMENT: string;
         APP_NAME: string;
         VPC_ID: string;
+        VPC_SUBNET_TYPE: string;
+        RDS_USERNAME: string;
+        RDS_PASSWORD: string;
         OWNER: string;
         SERVERLESS_V2_MAX_CAPACITY: number;
         SERVERLESS_V2_MIN_CAPACITY: number;
