@@ -1,6 +1,15 @@
 ## 2024-12-07
 
 ### Changed
+- Updated `APP_NAME` in `.env.example` from `aws-aurora-serverless` to `ow-aurora-serverless`
+
+### Added
+- Enhanced environment variable definitions in `process-env.d.ts`
+  - Added `VPC_SUBNET_TYPE`, `RDS_USERNAME`, and `RDS_PASSWORD` to `ProcessEnv` interface
+
+## 2024-12-07
+
+### Changed
 - Implemented dynamic `removalPolicy` for Aurora Serverless database cluster based on deployment environment
   - `RETAIN` for production
   - `DESTROY` for non-production environments
