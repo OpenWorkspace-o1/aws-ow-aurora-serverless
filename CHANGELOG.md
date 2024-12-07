@@ -1,6 +1,15 @@
 ## 2024-12-07
 
 ### Changed
+- Implemented dynamic `removalPolicy` for Aurora Serverless database cluster based on deployment environment
+  - `RETAIN` for production
+  - `DESTROY` for non-production environments
+- Simplified removal policy configuration by directly setting policy during cluster creation
+- Removed redundant `applyRemovalPolicy` method call
+
+## 2024-12-07
+
+### Changed
 - Updated AWS CDK dependencies to version `2.172.0`
 - Enhanced Aurora Serverless configuration with improved scalability and reliability
 - Simplified RDS credentials management
