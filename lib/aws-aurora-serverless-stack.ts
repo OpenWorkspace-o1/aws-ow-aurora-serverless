@@ -2,7 +2,6 @@ import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as kms from 'aws-cdk-lib/aws-kms';
-import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 import { AuroraEngine, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
 import { SecretValue } from 'aws-cdk-lib';
@@ -28,10 +27,6 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     });
     auroraSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
-    const auroraSecret = new secretsmanager.Secret(this, `${props.resourcePrefix}-db-credentials`, {
-      secretStringValue: SecretValue.unsafePlainText(props.rdsPassword),
-    });
-
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
         rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_17_2 }) :
@@ -52,7 +47,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       ],
       storageEncrypted: true,
       storageEncryptionKey: kmsKey,
-      credentials: rds.Credentials.fromSecret(auroraSecret, props.rdsUsername),
+      credentials: rds.Credentials.fromPassword(props.rdsUsername, SecretValue.unsafePlainText(props.rdsPassword)),
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       iamAuthentication: true,
       backup: {
