@@ -55,6 +55,8 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         retention: cdk.Duration.days(14),
         preferredWindow: '03:00-04:00'
       },
+      backtrackWindow: props.auroraEngine === AuroraEngine.AuroraMysql ?
+        cdk.Duration.hours(24) : undefined,
     });
     const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
     auroraDatabaseCluster.applyRemovalPolicy(removalPolicy);
@@ -74,6 +76,16 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         reason: 'AwsSolutions-RDS11: The RDS instance or Aurora DB cluster uses the default endpoint port.',
       },
     ]);
+
+    // Add suppression for backtrack warning if using PostgreSQL
+    if (props.auroraEngine === AuroraEngine.AuroraPostgresql) {
+      NagSuppressions.addResourceSuppressions(auroraDatabaseCluster, [
+        {
+          id: 'AwsSolutions-RDS14',
+          reason: 'Backtrack is not supported for Aurora PostgreSQL clusters',
+        },
+      ]);
+    }
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Endpoint`, {
       value: auroraDatabaseCluster.clusterEndpoint.hostname,
