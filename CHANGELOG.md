@@ -1,3 +1,17 @@
+## 2024-12-14
+
+### Added
+- New environment variables for AWS Aurora Serverless VPC subnet configuration:
+  * `VPC_PRIVATE_SUBNET_IDS`
+  * `VPC_PRIVATE_SUBNET_AZS`
+  * `VPC_PRIVATE_SUBNET_ROUTE_TABLE_IDS`
+
+### Changed
+- Enhanced VPC subnet selection process for Aurora Serverless
+  * Dynamically retrieve and select subnets using provided subnet IDs and availability zones
+  * Improved flexibility in VPC subnet configuration
+- Updated type definitions to support new subnet-related parameters in CDK stack
+
 ## 2024-12-07
 
 ### Changed
