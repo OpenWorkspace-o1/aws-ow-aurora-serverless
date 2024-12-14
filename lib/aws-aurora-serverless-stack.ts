@@ -7,6 +7,7 @@ import { Construct } from 'constructs';
 import { AuroraEngine, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
 import { SecretValue } from 'aws-cdk-lib';
 import { parseVpcSubnetType } from '../utils/vpc-type-parser';
+import { SubnetSelection } from 'aws-cdk-lib/aws-ec2';
 
 export class AwsAuroraServerlessStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: AwsAuroraServerlessStackProps) {
@@ -14,6 +15,32 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
 
     const vpc = ec2.Vpc.fromLookup(this, `${props.resourcePrefix}-VPC-Imported`, {
       vpcId: props.vpcId,
+    });
+    const vpcSubnetType = parseVpcSubnetType(props.vpcSubnetType);
+
+    // define subnetAttributes as an array of Record<string, string> with subnetId comes from props.vpcPrivateSubnetIds and availabilityZone comes from props.vpcPrivateSubnetAzs
+    const subnetAttributes: Record<string, string>[] = props.vpcPrivateSubnetIds.map((subnetId, index) => {
+      return {
+          subnetId: subnetId,
+          availabilityZone: props.vpcPrivateSubnetAzs[index],
+          routeTableId: props.vpcPrivateSubnetRouteTableIds[index],
+          type: vpcSubnetType,
+      };
+    });
+    console.log('subnetAttributes:', JSON.stringify(subnetAttributes));
+
+    // retrieve subnets from vpc
+    const vpcPrivateISubnets: cdk.aws_ec2.ISubnet[] = subnetAttributes.map((subnetAttribute) => {
+        return ec2.Subnet.fromSubnetAttributes(this, subnetAttribute.subnetId, {
+            subnetId: subnetAttribute.subnetId,
+            availabilityZone: subnetAttribute.availabilityZone,
+            routeTableId: subnetAttribute.routeTableId,
+        });
+    });
+    const vpcSubnetSelection: SubnetSelection = vpc.selectSubnets({
+      subnets: vpcPrivateISubnets,
+      availabilityZones: props.vpcPrivateSubnetAzs,
+      subnetType: vpcSubnetType,
     });
 
     const kmsKey = new kms.Key(this, `${props.resourcePrefix}-Aurora-KMS-Key`, {
@@ -34,9 +61,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_16_6 }) :
         rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_08_0 }),
       vpc,
-      vpcSubnets: {
-        subnetType: parseVpcSubnetType(props.vpcSubnetType),
-      },
+      vpcSubnets: vpcSubnetSelection,
       securityGroups: [auroraSecurityGroup],
       autoMinorVersionUpgrade: true,
       serverlessV2MaxCapacity: props.serverlessV2MaxCapacity,

@@ -8,6 +8,9 @@ export interface AwsAuroraServerlessStackProps extends StackProps {
     readonly vpcSubnetType: string;
     readonly owner: string;
     readonly vpcId: string;
+    readonly vpcPrivateSubnetIds: string[];
+    readonly vpcPrivateSubnetAzs: string[];
+    readonly vpcPrivateSubnetRouteTableIds: string[];
     readonly auroraEngine: AuroraEngine;
     readonly serverlessV2MaxCapacity: number;
     readonly serverlessV2MinCapacity: number;
