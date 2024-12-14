@@ -6,6 +6,9 @@ declare module NodeJS {
         APP_NAME: string;
         VPC_ID: string;
         VPC_SUBNET_TYPE: string;
+        VPC_PRIVATE_SUBNET_IDS: string;
+        VPC_PRIVATE_SUBNET_AZS: string;
+        VPC_PRIVATE_SUBNET_ROUTE_TABLE_IDS: string;
         RDS_USERNAME: string;
         RDS_PASSWORD: string;
         OWNER: string;
