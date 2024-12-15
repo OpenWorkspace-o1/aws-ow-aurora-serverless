@@ -40,7 +40,6 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     const vpcSubnetSelection: SubnetSelection = vpc.selectSubnets({
       subnets: vpcPrivateISubnets,
       availabilityZones: props.vpcPrivateSubnetAzs,
-      subnetType: vpcSubnetType,
     });
 
     const kmsKey = new kms.Key(this, `${props.resourcePrefix}-Aurora-KMS-Key`, {
