@@ -86,6 +86,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       },
       backtrackWindow: props.auroraEngine === AuroraEngine.AuroraMysql ?
         cdk.Duration.hours(24) : undefined,
+      defaultDatabaseName: props.defaultDatabaseName,
     });
 
     // Add suppression for the deletion protection warning
