@@ -15,5 +15,6 @@ declare module NodeJS {
         SERVERLESS_V2_MAX_CAPACITY: number;
         SERVERLESS_V2_MIN_CAPACITY: number;
         AURORA_ENGINE: string;
+        DEFAULT_DATABASE_NAME: string;
     }
 }

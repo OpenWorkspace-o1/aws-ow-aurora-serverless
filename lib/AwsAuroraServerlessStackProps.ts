@@ -16,6 +16,7 @@ export interface AwsAuroraServerlessStackProps extends StackProps {
     readonly serverlessV2MinCapacity: number;
     readonly rdsUsername: string;
     readonly rdsPassword: string;
+    readonly defaultDatabaseName: string;
 }
 
 export enum AuroraEngine {
