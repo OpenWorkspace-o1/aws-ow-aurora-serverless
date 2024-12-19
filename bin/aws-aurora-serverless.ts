@@ -31,6 +31,7 @@ checkEnvVariables('APP_NAME',
     'SERVERLESS_V2_MIN_CAPACITY',
     'RDS_USERNAME',
     'RDS_PASSWORD',
+    'DEFAULT_DATABASE_NAME',
 );
 
 const { CDK_DEFAULT_ACCOUNT: account } = process.env;
@@ -70,6 +71,7 @@ const stackProps: AwsAuroraServerlessStackProps = {
     serverlessV2MinCapacity: Number(process.env.SERVERLESS_V2_MIN_CAPACITY!),
     rdsUsername: process.env.RDS_USERNAME!,
     rdsPassword: process.env.RDS_PASSWORD!,
+    defaultDatabaseName: process.env.DEFAULT_DATABASE_NAME!,
 };
 new AwsAuroraServerlessStack(app, `AwsAuroraServerlessStack`, {
     ...stackProps,

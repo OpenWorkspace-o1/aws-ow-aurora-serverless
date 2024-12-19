@@ -1,3 +1,14 @@
+## 2024-12-19
+
+### Added
+- Support for specifying a default database name in Aurora Serverless stack
+  * New environment variable `DEFAULT_DATABASE_NAME`
+  * Updated `AwsAuroraServerlessStackProps` interface to include `defaultDatabaseName` property
+
+### Changed
+- Updated `.env.example` with `OWNER` value to `OpenWorkspace-o1`
+- Modified Aurora Serverless stack to utilize the new `defaultDatabaseName` configuration
+
 ## 2024-12-14
 
 ### Added
