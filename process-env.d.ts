@@ -16,5 +16,8 @@ declare module NodeJS {
         SERVERLESS_V2_MIN_CAPACITY: number;
         AURORA_ENGINE: string;
         DEFAULT_DATABASE_NAME: string;
+        STORAGE_TYPE: string;
+        MONITORING_INTERVAL: number;
+        CLUSTER_SCALABILITY_TYPE: string;
     }
 }

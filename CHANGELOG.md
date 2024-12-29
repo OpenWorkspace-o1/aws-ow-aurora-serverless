@@ -1,3 +1,16 @@
+## 2024-12-29 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/26]
+
+### Added
+- Introduced configurable `STORAGE_TYPE` property for Aurora clusters
+  * Added support for `AURORA` and `AURORA_IOPT1` storage types
+  * Implemented utility functions for storage type parsing and validation
+- Added `monitoringInterval` configuration for enhanced CloudWatch monitoring
+- Updated environment configuration to include `STORAGE_TYPE` and `MONITORING_INTERVAL`
+
+### Changed
+- Enhanced `AwsAuroraServerlessStack` to utilize new storage type configuration
+- Updated `.env.example` and `process-env.d.ts` to support new configuration options
+
 ## 2024-12-29 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/24]
 
 ### Updated
