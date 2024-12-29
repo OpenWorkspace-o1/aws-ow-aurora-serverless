@@ -88,6 +88,8 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       storageType: parseStorageType(props.storageType),
       backtrackWindow: props.auroraEngine === AuroraEngine.AuroraMysql ? cdk.Duration.hours(24) : undefined,
       defaultDatabaseName: props.defaultDatabaseName,
+      monitoringInterval: cdk.Duration.minutes(1),
+      cloudwatchLogsExports: ['error', 'general', 'slowquery'],
     });
 
     // Add suppression for the deletion protection warning

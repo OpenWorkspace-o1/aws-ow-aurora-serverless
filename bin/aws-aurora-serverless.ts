@@ -34,6 +34,7 @@ checkEnvVariables('APP_NAME',
     'RDS_PASSWORD',
     'DEFAULT_DATABASE_NAME',
     'STORAGE_TYPE',
+    'MONITORING_INTERVAL',
 );
 
 const { CDK_DEFAULT_ACCOUNT: account } = process.env;
@@ -75,6 +76,7 @@ const stackProps: AwsAuroraServerlessStackProps = {
     rdsPassword: process.env.RDS_PASSWORD!,
     defaultDatabaseName: process.env.DEFAULT_DATABASE_NAME!,
     storageType: parseStorageTypeFromEnv(),
+    monitoringInterval: Number(process.env.MONITORING_INTERVAL!),
 };
 new AwsAuroraServerlessStack(app, `AwsAuroraServerlessStack`, {
     ...stackProps,

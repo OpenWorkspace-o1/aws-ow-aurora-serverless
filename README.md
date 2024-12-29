@@ -76,6 +76,7 @@ This project provides an AWS CDK implementation for deploying an Aurora Serverle
    - `RDS_PASSWORD`: Database admin password
    - `STORAGE_TYPE`: aurora or aurora-iopt1
    - `DEFAULT_DATABASE_NAME`: Default database name
+   - `MONITORING_INTERVAL`: Monitoring interval in minutes
 
 ## Deployment
 
