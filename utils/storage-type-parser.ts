@@ -15,5 +15,5 @@ export const parseStorageTypeFromEnv = (): StorageType => {
     if (!acceptedValues.includes(storageTypeUpper as StorageType)) {
         throw new Error(`Invalid STORAGE_TYPE value: ${storageType}. Must be one of: ${acceptedValues.join(', ')}`);
     }
-    return storageType as StorageType;
+    return storageTypeUpper as StorageType;
 }

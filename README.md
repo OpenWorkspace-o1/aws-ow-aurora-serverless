@@ -77,6 +77,7 @@ This project provides an AWS CDK implementation for deploying an Aurora Serverle
    - `STORAGE_TYPE`: aurora or aurora-iopt1
    - `DEFAULT_DATABASE_NAME`: Default database name
    - `MONITORING_INTERVAL`: Monitoring interval in minutes
+   - `CLUSTER_SCALABILITY_TYPE`: standard or limitless
 
 ## Deployment
 

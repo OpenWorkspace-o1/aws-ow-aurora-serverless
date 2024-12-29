@@ -11,6 +11,7 @@ import { AwsSolutionsChecks } from 'cdk-nag';
 import { AwsAuroraServerlessStack } from '../lib/aws-aurora-serverless-stack';
 import { AuroraEngine, AwsAuroraServerlessStackProps } from '../lib/AwsAuroraServerlessStackProps';
 import { parseStorageTypeFromEnv } from '../utils/storage-type-parser';
+import { parseClusterScailabilityTypeFromEnv } from '../utils/cluster-scailability-parser';
 
 dotenv.config(); // Load environment variables from .env file
 const app = new cdk.App();
@@ -35,6 +36,7 @@ checkEnvVariables('APP_NAME',
     'DEFAULT_DATABASE_NAME',
     'STORAGE_TYPE',
     'MONITORING_INTERVAL',
+    'CLUSTER_SCALABILITY_TYPE',
 );
 
 const { CDK_DEFAULT_ACCOUNT: account } = process.env;
@@ -77,6 +79,7 @@ const stackProps: AwsAuroraServerlessStackProps = {
     defaultDatabaseName: process.env.DEFAULT_DATABASE_NAME!,
     storageType: parseStorageTypeFromEnv(),
     monitoringInterval: Number(process.env.MONITORING_INTERVAL!),
+    clusterScailabilityType: parseClusterScailabilityTypeFromEnv(),
 };
 new AwsAuroraServerlessStack(app, `AwsAuroraServerlessStack`, {
     ...stackProps,

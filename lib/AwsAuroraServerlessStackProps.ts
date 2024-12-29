@@ -1,4 +1,5 @@
 import { StackProps } from "aws-cdk-lib";
+import { ClusterScailabilityType } from "aws-cdk-lib/aws-rds";
 export interface AwsAuroraServerlessStackProps extends StackProps {
     readonly resourcePrefix: string;
     readonly deployRegion: string | undefined;
@@ -18,6 +19,7 @@ export interface AwsAuroraServerlessStackProps extends StackProps {
     readonly defaultDatabaseName: string;
     readonly storageType: StorageType;
     readonly monitoringInterval: number;
+    readonly clusterScailabilityType: ClusterScailabilityType;
 }
 
 export enum AuroraEngine {
