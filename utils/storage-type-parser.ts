@@ -10,9 +10,10 @@ export const parseStorageTypeFromEnv = (): StorageType => {
     if (!storageType) {
         throw new Error('STORAGE_TYPE is not set');
     }
+    const storageTypeUpper = storageType.toUpperCase();
     const acceptedValues = [StorageType.AURORA, StorageType.AURORA_IOPT1];
-    if (!acceptedValues.includes(storageType as StorageType)) {
-        throw new Error(`Invalid STORAGE_TYPE value: ${storageType}`);
+    if (!acceptedValues.includes(storageTypeUpper as StorageType)) {
+        throw new Error(`Invalid STORAGE_TYPE value: ${storageType}. Must be one of: ${acceptedValues.join(', ')}`);
     }
     return storageType as StorageType;
 }
