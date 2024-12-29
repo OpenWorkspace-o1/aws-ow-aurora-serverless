@@ -1,5 +1,4 @@
 import { StackProps } from "aws-cdk-lib";
-
 export interface AwsAuroraServerlessStackProps extends StackProps {
     readonly resourcePrefix: string;
     readonly deployRegion: string | undefined;
@@ -17,9 +16,16 @@ export interface AwsAuroraServerlessStackProps extends StackProps {
     readonly rdsUsername: string;
     readonly rdsPassword: string;
     readonly defaultDatabaseName: string;
+    readonly storageType: StorageType;
+    readonly monitoringInterval: number;
 }
 
 export enum AuroraEngine {
     AuroraPostgresql = "aurora-postgresql",
     AuroraMysql = "aurora-mysql",
+}
+
+export enum StorageType {
+    AURORA = "aurora",
+    AURORA_IOPT1 = "aurora-iopt1",
 }
