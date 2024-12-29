@@ -90,6 +90,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       defaultDatabaseName: props.defaultDatabaseName,
       monitoringInterval: cdk.Duration.minutes(props.monitoringInterval),
       cloudwatchLogsExports: ['error', 'general', 'slowquery'],
+      clusterScailabilityType: props.clusterScailabilityType,
     });
 
     // Add suppression for the deletion protection warning
