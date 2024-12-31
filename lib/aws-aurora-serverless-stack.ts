@@ -44,9 +44,10 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     });
 
     const kmsKey = new kms.Key(this, `${props.resourcePrefix}-Aurora-KMS-Key`, {
-      enableKeyRotation: true,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
       enabled: true,
+      enableKeyRotation: true,
+      rotationPeriod: cdk.Duration.days(30),
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
       keyUsage: kms.KeyUsage.ENCRYPT_DECRYPT,
       keySpec: kms.KeySpec.SYMMETRIC_DEFAULT,
     });

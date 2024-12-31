@@ -1,3 +1,10 @@
+## 2024-12-31 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/33]
+
+### Changed
+- Enabled automatic KMS key rotation every 30 days
+- Explicitly enabled KMS key with `enabled: true` property
+- Reordered KMS key configuration properties for improved clarity and consistency
+
 ## 2024-12-29 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/26]
 
 ### Added

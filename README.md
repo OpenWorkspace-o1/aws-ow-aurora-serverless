@@ -68,16 +68,16 @@ This project provides an AWS CDK implementation for deploying an Aurora Serverle
    - `ENVIRONMENT`: Deployment environment (development/staging/production)
    - `OWNER`: Owner tag value
    - `VPC_ID`: Target VPC ID
-   - `VPC_SUBNET_TYPE`: PRIVATE_WITH_EGRESS, PRIVATE_ISOLATED, or PUBLIC
-   - `AURORA_ENGINE`: aurora-postgresql or aurora-mysql
+   - `VPC_SUBNET_TYPE`: `PRIVATE_WITH_EGRESS`, `PRIVATE_ISOLATED`, or `PUBLIC`
+   - `AURORA_ENGINE`: `aurora-postgresql` or `aurora-mysql`
    - `SERVERLESS_V2_MAX_CAPACITY`: Maximum ACU capacity
    - `SERVERLESS_V2_MIN_CAPACITY`: Minimum ACU capacity
    - `RDS_USERNAME`: Database admin username
    - `RDS_PASSWORD`: Database admin password
-   - `STORAGE_TYPE`: aurora or aurora-iopt1
+   - `STORAGE_TYPE`: `aurora` or `aurora-iopt1`
    - `DEFAULT_DATABASE_NAME`: Default database name
    - `MONITORING_INTERVAL`: Monitoring interval in minutes
-   - `CLUSTER_SCALABILITY_TYPE`: standard or limitless
+   - `CLUSTER_SCALABILITY_TYPE`: `standard` or `limitless`
 
 ## Deployment
 
