@@ -4,11 +4,10 @@ import * as rds from 'aws-cdk-lib/aws-rds';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
-import { AuroraEngine, AwsAuroraServerlessStackProps, StorageType } from './AwsAuroraServerlessStackProps';
+import { AuroraEngine, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
 import { SecretValue } from 'aws-cdk-lib';
 import { parseVpcSubnetType } from '../utils/vpc-type-parser';
 import { SubnetSelection } from 'aws-cdk-lib/aws-ec2';
-import { parseStorageType } from '../utils/storage-type-parser';
 
 export class AwsAuroraServerlessStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: AwsAuroraServerlessStackProps) {
@@ -86,7 +85,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         retention: cdk.Duration.days(14),
         preferredWindow: '03:00-04:00',
       },
-      storageType: parseStorageType(props.storageType),
+      storageType: props.storageType,
       backtrackWindow: props.auroraEngine === AuroraEngine.AuroraMysql ? cdk.Duration.hours(24) : undefined,
       defaultDatabaseName: props.defaultDatabaseName,
       monitoringInterval: cdk.Duration.minutes(props.monitoringInterval),
