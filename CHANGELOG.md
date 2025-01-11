@@ -1,3 +1,14 @@
+## 2025-01-11 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/37]
+
+### Changed
+- Replaced custom `StorageType` enum with `DBClusterStorageType` for improved consistency and simplicity.
+- Simplified `parseStorageTypeFromEnv` to directly use `DBClusterStorageType`.
+- Updated `AwsAuroraServerlessStackProps` to utilize `DBClusterStorageType`.
+
+### Updated
+- Updated `aws-cdk` and `aws-cdk-lib` dependencies from `2.175.0` to `2.175.1`.
+- Incremented project version from `0.1.4` to `0.1.5` in `package.json`.
+
 ## 2025-01-10 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/35]
 
 ### Updated

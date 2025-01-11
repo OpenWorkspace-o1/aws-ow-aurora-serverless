@@ -1,5 +1,5 @@
 import { StackProps } from "aws-cdk-lib";
-import { ClusterScailabilityType } from "aws-cdk-lib/aws-rds";
+import { ClusterScailabilityType, DBClusterStorageType } from "aws-cdk-lib/aws-rds";
 
 export interface AwsAuroraServerlessStackProps extends StackProps {
     /** Resource prefix for all AWS resources */
@@ -35,7 +35,7 @@ export interface AwsAuroraServerlessStackProps extends StackProps {
     /** Name of the default database to be created */
     readonly defaultDatabaseName: string;
     /** Storage type for the Aurora cluster */
-    readonly storageType: StorageType;
+    readonly storageType: DBClusterStorageType;
     /** Enhanced monitoring interval in minutes */
     readonly monitoringInterval: number;
     /** Type of cluster scalability configuration */
@@ -48,12 +48,4 @@ export enum AuroraEngine {
     AuroraPostgresql = "aurora-postgresql",
     /** MySQL-compatible Aurora engine */
     AuroraMysql = "aurora-mysql",
-}
-
-/** Available storage types for Aurora clusters */
-export enum StorageType {
-    /** Standard Aurora storage */
-    AURORA = "aurora",
-    /** I/O optimized Aurora storage */
-    AURORA_IOPT1 = "aurora-iopt1",
 }
