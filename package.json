@@ -1,6 +1,6 @@
 {
   "name": "aws-aurora-serverless",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "bin": {
     "aws-aurora-serverless": "bin/aws-aurora-serverless.js"
   },
