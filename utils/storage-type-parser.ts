@@ -5,10 +5,10 @@ export const parseStorageTypeFromEnv = (): DBClusterStorageType => {
     if (!storageType) {
         throw new Error('STORAGE_TYPE is not set');
     }
-    const storageTypeUpper = storageType.toUpperCase();
-    const acceptedValues = [DBClusterStorageType.AURORA, DBClusterStorageType.AURORA_IOPT1];
-    if (!acceptedValues.includes(storageTypeUpper as DBClusterStorageType)) {
+    const storageTypeLower = storageType.toLowerCase();
+    const acceptedValues = [DBClusterStorageType.AURORA.toString(), DBClusterStorageType.AURORA_IOPT1.toString()];
+    if (!acceptedValues.includes(storageTypeLower)) {
         throw new Error(`Invalid STORAGE_TYPE value: ${storageType}. Must be one of: ${acceptedValues.join(', ')}`);
     }
-    return storageTypeUpper as DBClusterStorageType;
+    return storageTypeLower === DBClusterStorageType.AURORA.toString() ? DBClusterStorageType.AURORA : DBClusterStorageType.AURORA_IOPT1;
 }
