@@ -124,7 +124,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       backtrackWindow: props.auroraEngine === AuroraEngine.AuroraMysql ? cdk.Duration.hours(24) : undefined,
       defaultDatabaseName: props.defaultDatabaseName,
       monitoringInterval: cdk.Duration.seconds(props.monitoringInterval),
-      monitoringRole,
+      monitoringRole: monitoringRole,
       clusterScalabilityType: props.clusterScalabilityType,
     });
 
