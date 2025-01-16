@@ -75,12 +75,24 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
                 'logs:DescribeLogGroups',
                 'cloudwatch:PutMetricData'
               ],
-              resources: ['*']
+              resources: [
+                `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/rds/*`,
+                `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/rds/*:log-stream:*`,
+                `arn:aws:cloudwatch:${this.region}:${this.account}:*`
+              ]
             })
           ]
         })
       }
     });
+
+    // add NagSuppressions for the AwsSolutions-IAM5 warning for monitoringRole
+    NagSuppressions.addResourceSuppressions(monitoringRole, [
+      {
+        id: 'AwsSolutions-IAM5',
+        reason: 'Custom monitoring role is used instead of AWS managed policy',
+      },
+    ]);
 
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
