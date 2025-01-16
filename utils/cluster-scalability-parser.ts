@@ -5,10 +5,10 @@ export const parseClusterScalabilityTypeFromEnv = (): ClusterScalabilityType => 
     if (!clusterScalabilityType) {
         throw new Error('CLUSTER_SCALABILITY_TYPE is not set');
     }
-    const clusterScalabilityTypeUpper = clusterScalabilityType.toUpperCase();
-    const acceptedValues = [ClusterScalabilityType.STANDARD, ClusterScalabilityType.LIMITLESS];
-    if (!acceptedValues.includes(clusterScalabilityTypeUpper as ClusterScalabilityType)) {
+    const clusterScalabilityTypeLower = clusterScalabilityType.toLowerCase();
+    const acceptedValues = [ClusterScalabilityType.STANDARD.toString(), ClusterScalabilityType.LIMITLESS.toString()];
+    if (!acceptedValues.includes(clusterScalabilityTypeLower)) {
         throw new Error(`Invalid CLUSTER_SCALABILITY_TYPE value: ${clusterScalabilityType}. Must be one of: ${acceptedValues.join(', ')}`);
     }
-    return clusterScalabilityTypeUpper as ClusterScalabilityType;
+    return clusterScalabilityTypeLower === ClusterScalabilityType.STANDARD.toString() ? ClusterScalabilityType.STANDARD : ClusterScalabilityType.LIMITLESS;
 }
