@@ -60,6 +60,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     auroraSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
     const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
+
     // Create custom monitoring role instead of using AWS managed policy
     const monitoringRole = new cdk.aws_iam.Role(this, `${props.resourcePrefix}-Aurora-Monitoring-Role`, {
       assumedBy: new cdk.aws_iam.ServicePrincipal('monitoring.rds.amazonaws.com'),
@@ -79,11 +80,11 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
                 `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/rds/*`,
                 `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/rds/*:log-stream:*`,
                 `arn:aws:cloudwatch:${this.region}:${this.account}:*`
-              ]
-            })
-          ]
-        })
-      }
+              ],
+            }),
+          ],
+        }),
+      },
     });
 
     // add NagSuppressions for the AwsSolutions-IAM5 warning for monitoringRole
