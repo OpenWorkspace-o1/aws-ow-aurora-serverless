@@ -60,6 +60,41 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     auroraSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
     const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
+
+    // Create custom monitoring role instead of using AWS managed policy
+    const monitoringRole = new cdk.aws_iam.Role(this, `${props.resourcePrefix}-Aurora-Monitoring-Role`, {
+      assumedBy: new cdk.aws_iam.ServicePrincipal('monitoring.rds.amazonaws.com'),
+      description: 'Role for RDS Enhanced Monitoring',
+      inlinePolicies: {
+        monitoringPolicy: new cdk.aws_iam.PolicyDocument({
+          statements: [
+            new cdk.aws_iam.PolicyStatement({
+              actions: [
+                'logs:CreateLogGroup',
+                'logs:PutLogEvents',
+                'logs:DescribeLogStreams',
+                'logs:DescribeLogGroups',
+                'cloudwatch:PutMetricData'
+              ],
+              resources: [
+                `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/rds/*`,
+                `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/rds/*:log-stream:*`,
+                `arn:aws:cloudwatch:${this.region}:${this.account}:*`
+              ],
+            }),
+          ],
+        }),
+      },
+    });
+
+    // add NagSuppressions for the AwsSolutions-IAM5 warning for monitoringRole
+    NagSuppressions.addResourceSuppressions(monitoringRole, [
+      {
+        id: 'AwsSolutions-IAM5',
+        reason: 'Custom monitoring role is used instead of AWS managed policy',
+      },
+    ]);
+
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
         rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_16_6 }) :
@@ -89,6 +124,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       backtrackWindow: props.auroraEngine === AuroraEngine.AuroraMysql ? cdk.Duration.hours(24) : undefined,
       defaultDatabaseName: props.defaultDatabaseName,
       monitoringInterval: cdk.Duration.seconds(props.monitoringInterval),
+      monitoringRole: monitoringRole,
       clusterScalabilityType: props.clusterScalabilityType,
     });
 

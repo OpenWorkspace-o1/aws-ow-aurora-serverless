@@ -83,7 +83,7 @@ const stackProps: AwsAuroraServerlessStackProps = {
 };
 new AwsAuroraServerlessStack(app, `AwsAuroraServerlessStack`, {
     ...stackProps,
-    stackName: `${appName}-${deployEnvironment}-${cdkRegion}-AwsAuroraServerlessStack`,
+    stackName: `${appName}-${deployEnvironment}-AwsAuroraServerlessStack`,
     description: `AwsAuroraServerlessStack for ${appName} in ${cdkRegion} ${deployEnvironment}.`,
 });
 
