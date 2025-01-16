@@ -1,3 +1,14 @@
+## 2025-01-16 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/41]
+
+### Fixed
+- Fixed typo in function name `parseClusterScailabilityTypeFromEnv` to `parseClusterScalabilityTypeFromEnv`.
+
+### Added
+- Added `parseClusterScalabilityTypeFromEnv` function to validate `CLUSTER_SCALABILITY_TYPE` environment variable.
+
+### Changed
+- Updated `clusterScailabilityType` property to `clusterScalabilityType` in `AwsAuroraServerlessStackProps`.
+
 ## 2025-01-11 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/37]
 
 ### Changed
