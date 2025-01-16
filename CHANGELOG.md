@@ -1,3 +1,13 @@
+## 2025-01-16 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/43]
+
+### Changed
+- Updated KMS key rotation period from `30` to `90` days.
+- Changed `MONITORING_INTERVAL` unit from minutes to seconds.
+- Improved parsing logic for `STORAGE_TYPE` and `CLUSTER_SCALABILITY_TYPE` to use lowercase comparison.
+
+### Removed
+- Removed `cloudwatchLogsExports` from Aurora database cluster configuration.
+
 ## 2025-01-16 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/41]
 
 ### Fixed
