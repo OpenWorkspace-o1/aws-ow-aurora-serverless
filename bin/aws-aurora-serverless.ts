@@ -81,9 +81,9 @@ const stackProps: AwsAuroraServerlessStackProps = {
     monitoringInterval: Number(process.env.MONITORING_INTERVAL!),
     clusterScalabilityType: parseClusterScalabilityTypeFromEnv(),
 };
-new AwsAuroraServerlessStack(app, `AwsAuroraServerlessStack`, {
+new AwsAuroraServerlessStack(app, `${owner}-${deployEnvironment}-AwsAuroraServerlessStack`, {
     ...stackProps,
-    stackName: `${appName}-${deployEnvironment}-AwsAuroraServerlessStack`,
+    stackName: `${owner}-${deployEnvironment}-AwsAuroraServerlessStack`,
     description: `AwsAuroraServerlessStack for ${appName} in ${cdkRegion} ${deployEnvironment}.`,
 });
 
