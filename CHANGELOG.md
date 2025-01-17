@@ -1,53 +1,64 @@
-## 2025-01-17 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/47]
+## 2025-01-17 [PR#47](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/47)
 
 ### Changed
+
 - Updated stack naming convention in `AwsAuroraServerlessStack` to include `owner` and `deployEnvironment`.
 
 ### Added
+
 - Added `instanceUpdateBehaviour` with value `ROLLING` to the Aurora database cluster configuration.
 
-## 2025-01-16 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/43]
+## 2025-01-16 [PR#43](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/43)
 
 ### Changed
+
 - Updated KMS key rotation period from `30` to `90` days.
 - Changed `MONITORING_INTERVAL` unit from minutes to seconds.
 - Improved parsing logic for `STORAGE_TYPE` and `CLUSTER_SCALABILITY_TYPE` to use lowercase comparison.
 
 ### Removed
+
 - Removed `cloudwatchLogsExports` from Aurora database cluster configuration.
 
-## 2025-01-16 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/41]
+## 2025-01-16 [PR#41](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/41)
 
 ### Fixed
+
 - Fixed typo in function name `parseClusterScailabilityTypeFromEnv` to `parseClusterScalabilityTypeFromEnv`.
 
 ### Added
+
 - Added `parseClusterScalabilityTypeFromEnv` function to validate `CLUSTER_SCALABILITY_TYPE` environment variable.
 
 ### Changed
+
 - Updated `clusterScailabilityType` property to `clusterScalabilityType` in `AwsAuroraServerlessStackProps`.
 
-## 2025-01-11 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/37]
+## 2025-01-11 [PR#37](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/37)
 
 ### Changed
+
 - Replaced custom `StorageType` enum with `DBClusterStorageType` for improved consistency and simplicity.
 - Simplified `parseStorageTypeFromEnv` to directly use `DBClusterStorageType`.
 - Updated `AwsAuroraServerlessStackProps` to utilize `DBClusterStorageType`.
 
 ### Updated
+
 - Updated `aws-cdk` and `aws-cdk-lib` dependencies from `2.175.0` to `2.175.1`.
 - Incremented project version from `0.1.4` to `0.1.5` in `package.json`.
 
-## 2025-01-10 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/35]
+## 2025-01-10 [PR#35](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/35)
 
 ### Updated
+
 - Updated `aws-cdk` and `aws-cdk-lib` dependencies from `2.173.4` to `2.175.0`.
 - Bumped `@types/node` dependency version from `22.10.2` to `22.10.5`.
 
 ### Changed
+
 - Incremented project version from `0.1.3` to `0.1.4` in `package.json`.
 
-## 2024-12-31 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/33]
+## 2024-12-31 [PR#33](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/33)
 
 ### Changed
 - Enabled automatic KMS key rotation every 30 days
