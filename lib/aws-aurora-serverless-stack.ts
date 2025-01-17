@@ -126,6 +126,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       monitoringInterval: cdk.Duration.seconds(props.monitoringInterval),
       monitoringRole: monitoringRole,
       clusterScalabilityType: props.clusterScalabilityType,
+      instanceUpdateBehaviour: rds.InstanceUpdateBehaviour.ROLLING,
     });
 
     // Add suppression for the deletion protection warning
