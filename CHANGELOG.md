@@ -1,3 +1,11 @@
+## 2025-01-17 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/47]
+
+### Changed
+- Updated stack naming convention in `AwsAuroraServerlessStack` to include `owner` and `deployEnvironment`.
+
+### Added
+- Added `instanceUpdateBehaviour` with value `ROLLING` to the Aurora database cluster configuration.
+
 ## 2025-01-16 [*][https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/43]
 
 ### Changed
