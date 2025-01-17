@@ -127,6 +127,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       monitoringRole: monitoringRole,
       clusterScalabilityType: props.clusterScalabilityType,
       instanceUpdateBehaviour: rds.InstanceUpdateBehaviour.ROLLING,
+      port: auroraPort,
     });
 
     // Add suppression for the deletion protection warning
