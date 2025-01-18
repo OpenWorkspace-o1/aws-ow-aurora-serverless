@@ -42,6 +42,14 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       availabilityZones: props.vpcPrivateSubnetAzs,
     });
 
+    // Create subnet group for Aurora cluster
+    const auroraSubnetGroup = new rds.SubnetGroup(this, `${props.resourcePrefix}-Aurora-Subnet-Group`, {
+      vpc,
+      description: 'Subnet group for Aurora Serverless cluster',
+      vpcSubnets: vpcSubnetSelection,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
     const kmsKey = new kms.Key(this, `${props.resourcePrefix}-Aurora-KMS-Key`, {
       enabled: true,
       enableKeyRotation: true,
@@ -59,10 +67,8 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     });
     auroraSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
-    const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
-
-    // Create custom monitoring role instead of using AWS managed policy
-    const monitoringRole = new cdk.aws_iam.Role(this, `${props.resourcePrefix}-Aurora-Monitoring-Role`, {
+    // create custom monitoring role instead of using AWS managed policy
+    const auroraMonitoringRole = new cdk.aws_iam.Role(this, `${props.resourcePrefix}-Aurora-Monitoring-Role`, {
       assumedBy: new cdk.aws_iam.ServicePrincipal('monitoring.rds.amazonaws.com'),
       description: 'Role for RDS Enhanced Monitoring',
       inlinePolicies: {
@@ -86,15 +92,17 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         }),
       },
     });
+    auroraMonitoringRole.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
     // add NagSuppressions for the AwsSolutions-IAM5 warning for monitoringRole
-    NagSuppressions.addResourceSuppressions(monitoringRole, [
+    NagSuppressions.addResourceSuppressions(auroraMonitoringRole, [
       {
         id: 'AwsSolutions-IAM5',
         reason: 'Custom monitoring role is used instead of AWS managed policy',
       },
     ]);
 
+    const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
         rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_16_6 }) :
@@ -124,10 +132,13 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       backtrackWindow: props.auroraEngine === AuroraEngine.AuroraMysql ? cdk.Duration.hours(24) : undefined,
       defaultDatabaseName: props.defaultDatabaseName,
       monitoringInterval: cdk.Duration.seconds(props.monitoringInterval),
-      monitoringRole: monitoringRole,
+      monitoringRole: auroraMonitoringRole,
+      enableClusterLevelEnhancedMonitoring: props.deployEnvironment === 'production',
       clusterScalabilityType: props.clusterScalabilityType,
       instanceUpdateBehaviour: rds.InstanceUpdateBehaviour.ROLLING,
       port: auroraPort,
+      subnetGroup: auroraSubnetGroup,
+      deletionProtection: props.deployEnvironment === 'production',
     });
 
     // Add suppression for the deletion protection warning
@@ -197,13 +208,6 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       value: auroraDatabaseCluster.clusterArn,
       description: 'Aurora Database Cluster ARN',
       exportName: `${props.resourcePrefix}-Aurora-Database-Cluster-ARN`,
-    });
-
-    // export auroraDatabaseCluster connection string
-    new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Database-Cluster-Connection-String`, {
-      value: `${props.auroraEngine === AuroraEngine.AuroraPostgresql ? 'postgresql' : 'mysql'}://${props.rdsUsername}:${props.rdsPassword}@${auroraDatabaseCluster.clusterEndpoint.hostname}:${auroraPort}/${auroraDatabaseCluster.clusterIdentifier}`,
-      description: 'Aurora Database Cluster Connection String',
-      exportName: `${props.resourcePrefix}-Aurora-Database-Cluster-Connection-String`,
     });
   }
 }

@@ -1,3 +1,18 @@
+## 2025-01-18 [PR#51](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/51)
+
+### Added
+
+- Added `auroraSubnetGroup` for Aurora cluster with `RemovalPolicy.DESTROY`.
+- Enabled `deletionProtection` and `enableClusterLevelEnhancedMonitoring` for production environments.
+
+### Changed
+
+- Renamed `monitoringRole` to `auroraMonitoringRole` and applied `RemovalPolicy.DESTROY`.
+
+### Removed
+
+- Removed connection string export for security reasons.
+
 ## 2025-01-17 [PR#47](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/47)
 
 ### Changed
