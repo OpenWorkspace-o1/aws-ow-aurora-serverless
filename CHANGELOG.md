@@ -1,3 +1,13 @@
+## 2025-01-20 [PR#53](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/53)
+
+### Changed
+
+- Disabled `deletionProtection` for the Aurora Serverless database cluster.
+
+### Added
+
+- Added suppression for the `AwsSolutions-RDS10` warning to justify the change.
+
 ## 2025-01-18 [PR#51](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/51)
 
 ### Added
