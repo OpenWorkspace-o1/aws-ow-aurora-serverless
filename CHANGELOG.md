@@ -1,3 +1,12 @@
+## 2025-02-04 [PR#57](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/57)
+
+### Changed
+
+- Updated `aws-cdk` and `aws-cdk-lib` to version `2.177.0`.
+- Updated `cdk-nag` to version `2.35.9`.
+- Updated `@types/node` to version `22.13.1`.
+- Bumped project version to `0.1.8`.
+
 ## 2025-01-23 [PR#55](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/55)
 
 ### Changed
