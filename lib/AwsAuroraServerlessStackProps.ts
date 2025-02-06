@@ -49,3 +49,10 @@ export enum AuroraEngine {
     /** MySQL-compatible Aurora engine */
     AuroraMysql = "aurora-mysql",
 }
+
+export enum AuroraPort {
+    /** Default port for PostgreSQL-compatible Aurora */
+    PostgreSQL = 5432,
+    /** Default port for MySQL-compatible Aurora */
+    MySQL = 3306
+}
