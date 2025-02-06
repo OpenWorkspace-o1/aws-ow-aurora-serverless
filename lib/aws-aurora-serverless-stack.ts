@@ -103,9 +103,12 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     ]);
 
     const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
-    const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-Aurora-Serverless`, {
+    const auroraPostgresEngineVersion = props.clusterScalabilityType === rds.ClusterScalabilityType.LIMITLESS
+      ? rds.AuroraPostgresEngineVersion.VER_16_6_LIMITLESS
+      : rds.AuroraPostgresEngineVersion.VER_16_6;
+    const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-aurora-serverless-cluster`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
-        rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_16_6 }) :
+        rds.DatabaseClusterEngine.auroraPostgres({ version: auroraPostgresEngineVersion }) :
         rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_08_0 }),
       vpc,
       vpcSubnets: vpcSubnetSelection,
