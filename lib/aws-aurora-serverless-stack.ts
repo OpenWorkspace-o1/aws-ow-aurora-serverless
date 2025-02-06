@@ -4,7 +4,7 @@ import * as rds from 'aws-cdk-lib/aws-rds';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
-import { AuroraEngine, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
+import { AuroraEngine, AuroraPort, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
 import { SecretValue } from 'aws-cdk-lib';
 import { parseVpcSubnetType } from '../utils/vpc-type-parser';
 import { SubnetSelection } from 'aws-cdk-lib/aws-ec2';
@@ -50,7 +50,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    const kmsKey = new kms.Key(this, `${props.resourcePrefix}-Aurora-KMS-Key`, {
+    const auroraKmsKey = new kms.Key(this, `${props.resourcePrefix}-Aurora-KMS-Key`, {
       enabled: true,
       enableKeyRotation: true,
       rotationPeriod: cdk.Duration.days(90),
@@ -59,7 +59,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       keySpec: kms.KeySpec.SYMMETRIC_DEFAULT,
     });
 
-    const auroraPort = props.auroraEngine === AuroraEngine.AuroraPostgresql ? 5432 : 3306;
+    const auroraPort = props.auroraEngine === AuroraEngine.AuroraPostgresql ? AuroraPort.PostgreSQL : AuroraPort.MySQL;
     const auroraSecurityGroup = new ec2.SecurityGroup(this, `${props.resourcePrefix}-Aurora-Security-Group`, {
       vpc,
       allowAllOutbound: false,
@@ -123,7 +123,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
         }),
       ],
       storageEncrypted: true,
-      storageEncryptionKey: kmsKey,
+      storageEncryptionKey: auroraKmsKey,
       credentials: rds.Credentials.fromPassword(props.rdsUsername, SecretValue.unsafePlainText(props.rdsPassword)),
       removalPolicy,
       iamAuthentication: true,
@@ -189,13 +189,13 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
     });
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-KMS-Key-ID`, {
-      value: kmsKey.keyId,
+      value: auroraKmsKey.keyId,
       description: 'Aurora KMS Key ID',
       exportName: `${props.resourcePrefix}-Aurora-KMS-Key-ID`,
     });
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-KMS-Key-ARN`, {
-      value: kmsKey.keyArn,
+      value: auroraKmsKey.keyArn,
       description: 'Aurora KMS Key ARN',
       exportName: `${props.resourcePrefix}-Aurora-KMS-Key-ARN`,
     });
