@@ -4,7 +4,7 @@ import * as rds from 'aws-cdk-lib/aws-rds';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
-import { AuroraEngine, AuroraPort, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
+import { AuroraClusterInstanceType, AuroraEngine, AuroraPort, AwsAuroraServerlessStackProps } from './AwsAuroraServerlessStackProps';
 import { SecretValue } from 'aws-cdk-lib';
 import { parseVpcSubnetType } from '../utils/vpc-type-parser';
 import { SubnetSelection } from 'aws-cdk-lib/aws-ec2';
@@ -116,9 +116,9 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       autoMinorVersionUpgrade: true,
       serverlessV2MaxCapacity: props.serverlessV2MaxCapacity,
       serverlessV2MinCapacity: props.serverlessV2MinCapacity,
-      writer: rds.ClusterInstance.serverlessV2('writer'),
+      writer: rds.ClusterInstance.serverlessV2(AuroraClusterInstanceType.Writer),
       readers: [
-        rds.ClusterInstance.serverlessV2('reader', {
+        rds.ClusterInstance.serverlessV2(AuroraClusterInstanceType.Reader, {
           scaleWithWriter: true,
         }),
       ],

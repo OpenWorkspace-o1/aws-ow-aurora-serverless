@@ -56,3 +56,8 @@ export enum AuroraPort {
     /** Default port for MySQL-compatible Aurora */
     MySQL = 3306
 }
+
+export enum AuroraClusterInstanceType {
+    Writer = 'writer',
+    Reader = 'reader'
+}
