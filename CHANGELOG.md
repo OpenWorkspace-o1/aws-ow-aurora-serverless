@@ -1,3 +1,12 @@
+## 2025-03-09 [PR#67](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/67)
+
+### Changed
+
+- Updated `@types/node` from `22.13.1` to `22.13.10`.
+- Upgraded `aws-cdk` from `2.178.1` to `2.1003.0` and `aws-cdk-lib` from `2.178.1` to `2.182.0`.
+- Updated `ts-jest` from `^29.2.5` to `^29.2.6` and `typescript` from `~5.7.3` to `~5.8.2`.
+- Bumped project version to `0.2.1`.
+
 ## 2025-02-04 [PR#57](https://github.com/OpenWorkspace-o1/aws-aurora-serverless/pull/57)
 
 ### Changed
