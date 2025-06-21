@@ -104,12 +104,12 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
 
     const removalPolicy = props.deployEnvironment === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY;
     const auroraPostgresEngineVersion = props.clusterScalabilityType === rds.ClusterScalabilityType.LIMITLESS
-      ? rds.AuroraPostgresEngineVersion.VER_16_6_LIMITLESS
-      : rds.AuroraPostgresEngineVersion.VER_16_6;
+      ? rds.AuroraPostgresEngineVersion.VER_16_8_LIMITLESS
+      : rds.AuroraPostgresEngineVersion.VER_17_4;
     const auroraDatabaseCluster = new rds.DatabaseCluster(this, `${props.resourcePrefix}-aurora-serverless-cluster`, {
       engine: props.auroraEngine === AuroraEngine.AuroraPostgresql ?
         rds.DatabaseClusterEngine.auroraPostgres({ version: auroraPostgresEngineVersion }) :
-        rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_08_0 }),
+        rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_09_0 }),
       vpc,
       vpcSubnets: vpcSubnetSelection,
       securityGroups: [auroraSecurityGroup],
@@ -142,6 +142,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       port: auroraPort,
       subnetGroup: auroraSubnetGroup,
       deletionProtection: false,
+      serverlessV2AutoPauseDuration: cdk.Duration.hours(1),
     });
 
     // Add suppression for the deletion protection warning
