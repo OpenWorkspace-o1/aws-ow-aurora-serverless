@@ -142,6 +142,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       port: auroraPort,
       subnetGroup: auroraSubnetGroup,
       deletionProtection: false,
+      serverlessV2AutoPauseDuration: cdk.Duration.hours(1),
     });
 
     // Add suppression for the deletion protection warning
