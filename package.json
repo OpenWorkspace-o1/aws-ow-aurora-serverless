@@ -1,6 +1,6 @@
 {
   "name": "aws-aurora-serverless",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "bin": {
     "aws-aurora-serverless": "bin/aws-aurora-serverless.js"
   },
@@ -13,23 +13,23 @@
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
     "@types/jest": "^30.0.0",
-    "@types/node": "22.15.32",
+    "@types/node": "22.16.0",
     "@types/source-map-support": "^0.5.10",
-    "aws-cdk": "2.1019.1",
-    "jest": "^30.0.2",
+    "aws-cdk": "2.1020.1",
+    "jest": "^30.0.4",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "~5.8.3"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.202.0",
-    "cdk-nag": "^2.36.23",
+    "aws-cdk-lib": "2.203.1",
+    "cdk-nag": "^2.36.33",
     "constructs": "^10.4.2",
-    "dotenv": "^16.5.0"
+    "dotenv": "^17.0.1"
   },
   "peerDependencies": {
-    "aws-cdk": "2.1019.1",
-    "aws-cdk-lib": "2.202.0",
+    "aws-cdk": "2.1020.1",
+    "aws-cdk-lib": "2.203.1",
     "constructs": "^10.4.2"
   }
 }
