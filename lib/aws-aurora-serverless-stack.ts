@@ -50,7 +50,7 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    const auroraKmsKey = new kms.Key(this, `${props.resourcePrefix}-Aurora-KMS-Key`, {
+    const auroraStorageEncryptionKmsKey = new kms.Key(this, `${props.resourcePrefix}-Aurora-Storage-Encryption-KMS-Key`, {
       enabled: true,
       enableKeyRotation: true,
       rotationPeriod: cdk.Duration.days(90),
@@ -119,11 +119,11 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       writer: rds.ClusterInstance.serverlessV2(AuroraClusterInstanceType.Writer),
       readers: [
         rds.ClusterInstance.serverlessV2(AuroraClusterInstanceType.Reader, {
-          scaleWithWriter: true,
+          scaleWithWriter: false,
         }),
       ],
       storageEncrypted: true,
-      storageEncryptionKey: auroraKmsKey,
+      storageEncryptionKey: auroraStorageEncryptionKmsKey,
       credentials: rds.Credentials.fromPassword(props.rdsUsername, SecretValue.unsafePlainText(props.rdsPassword)),
       removalPolicy,
       iamAuthentication: true,
@@ -189,16 +189,16 @@ export class AwsAuroraServerlessStack extends cdk.Stack {
       exportName: `${props.resourcePrefix}-Aurora-Security-Group-ID`,
     });
 
-    new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-KMS-Key-ID`, {
-      value: auroraKmsKey.keyId,
-      description: 'Aurora KMS Key ID',
-      exportName: `${props.resourcePrefix}-Aurora-KMS-Key-ID`,
+    new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Storage-Encryption-KMS-Key-ID`, {
+      value: auroraStorageEncryptionKmsKey.keyId,
+      description: 'Aurora Storage Encryption KMS Key ID',
+      exportName: `${props.resourcePrefix}-Aurora-Storage-Encryption-KMS-Key-ID`,
     });
 
-    new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-KMS-Key-ARN`, {
-      value: auroraKmsKey.keyArn,
-      description: 'Aurora KMS Key ARN',
-      exportName: `${props.resourcePrefix}-Aurora-KMS-Key-ARN`,
+    new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Storage-Encryption-KMS-Key-ARN`, {
+      value: auroraStorageEncryptionKmsKey.keyArn,
+      description: 'Aurora Storage Encryption KMS Key ARN',
+      exportName: `${props.resourcePrefix}-Aurora-Storage-Encryption-KMS-Key-ARN`,
     });
 
     new cdk.CfnOutput(this, `${props.resourcePrefix}-Aurora-Port`, {
